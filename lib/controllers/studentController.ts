@@ -1,19 +1,19 @@
 //   /lib/controllers/crmController.ts
 import * as mongoose from 'mongoose';
-import { ContactSchema } from '../models/crmModel';
+import { ContactSchema } from '../models/studentModel';
 import { Request, Response } from 'express';
 
 const Contact = mongoose.model('Contact', ContactSchema);
-export class ContactController{
-    public async addNewContact (req: Request, res: Response) {  
+export class ContactController {
+    public async addNewContact(req: Request, res: Response) {
         try {
             let newContact = new Contact(req.body);
-            const contact = await newContact.save();         
+            const contact = await newContact.save();
             res.status(200).send({
                 message: 'GET request successfull'
             })
-        }              
-        catch (err){
+        }
+        catch (err) {
             return res.status(500).send(err);
         }
     }
@@ -25,13 +25,13 @@ export class ContactController{
         } catch (err) {
             res.status(500).send(err);
         }
-    }    
-    
+    }
+
     public async deleteAllContacts(req: Request, res: Response) {
         try {
             const contact = await Contact.deleteMany({});
             //res.json(contacts);
-            
+
             res.json({ message: 'Successfully deleted all contact!' });
         } catch (err) {
             return res.status(500).send(err);
@@ -41,17 +41,17 @@ export class ContactController{
     public async getContactWithID(req: Request, res: Response) {
         try {
             const contact = await Contact.findById(req.params.contactId);
-            
+
             if (!contact) {
                 return res.status(404).json({ message: "Contact not found" });
             }
-    
+
             res.json(contact);
         } catch (err) {
             return res.status(500).send(err);
         }
     }
-    
+
     public async updateContact(req: Request, res: Response) {
         try {
             const contact = await Contact.findOneAndUpdate(
@@ -59,11 +59,11 @@ export class ContactController{
                 req.body,
                 { new: true }
             );
-    
+
             if (!contact) {
                 return res.status(404).json({ message: "Contact not found" });
             }
-    
+
             res.json(contact);
         } catch (err) {
             return res.status(500).send(err);
@@ -73,16 +73,16 @@ export class ContactController{
     public async deleteContact(req: Request, res: Response) {
         try {
             const contact = await Contact.findByIdAndDelete(req.params.contactId);
-            
+
             if (!contact) {
                 return res.status(404).json({ message: "Contact not found" });
             }
-            
+
             res.json({ message: 'Successfully deleted contact!' });
         } catch (err) {
             return res.status(500).send(err);
         }
     }
-    
+
 
 }

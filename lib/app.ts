@@ -3,12 +3,13 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
 
-import { Routes } from "./routes/crmRoutes";
+import { Routes } from "./routes/studentRoutes";
 
 class App {
   public app: express.Application;
   public routePrv: Routes = new Routes();
-  public mongoUrl: string = "mongodb://localhost:27017/CRMdb";
+  private password = encodeURIComponent(process.env.MONGO_PASSWORD);
+  public mongoUrl: string = `mongodb+srv://phamthihoaithu01268:${this.password}@quanlisinhvien.ns8n8x2.mongodb.net/`;
 
   constructor() {
     this.app = express();
